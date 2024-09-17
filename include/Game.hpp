@@ -6,12 +6,14 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include "player.hpp"
+#include "enemy.hpp"
 
 class Game {
 
 private:
   sf::RenderWindow _window;
   Player _player;
+  Enemy _enemy;
   sf::Event _event;
   std::vector<sf::Drawable*> _entities;
   std::thread _renderThread;

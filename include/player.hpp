@@ -18,6 +18,7 @@ public:
   void move(int x, int y);
   void setSpeed(float speed);
   float getSpeed() const;
+  const sf::Vector2f& getPosition() const;
 
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

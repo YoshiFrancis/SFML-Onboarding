@@ -19,6 +19,10 @@ float Player::getSpeed() const {
   return _speed;
 }
 
+const sf::Vector2f& Player::getPosition() const {
+  return _sprite.getPosition();
+}
+
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   states.transform = _sprite.getTransform();
   target.draw(_sprite, states);
