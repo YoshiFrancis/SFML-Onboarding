@@ -26,6 +26,7 @@ private:
     virtual void update();
     virtual void pollEvents();
     virtual void render(sf::RenderWindow* _window);
+
 };
 
 #endif // !GAME_HPP
