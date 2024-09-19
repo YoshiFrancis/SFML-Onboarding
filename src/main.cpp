@@ -1,11 +1,11 @@
 #include <iostream>
-#include "Game.hpp"
+#include "BouncyBallGame.hpp"
 
 constexpr float SPEED = .01f;
 
 int main()
 {
-    Game game;
+    BouncyBallGame game;
     game.run();
 
     return 0;

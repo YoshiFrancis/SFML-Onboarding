@@ -26,7 +26,7 @@
  *
  * TODO:  
  * DONE - settup BouncyBallFactory class
- * TODO settup BouncyBall class
+ * DONE - settup BouncyBall class
  * TODO finish handlePhysics() for non-interactble
  * TODO get simulation up and running for non-interactable balls
  * TODO implement handlePhysics for interactable balls using linear iterations
@@ -52,8 +52,9 @@ public:
 
 private:
   void pollEvents();
-  void render(sf::RenderWindow* _window);
+  void render();
   void handlePhysics();
+  void addBall(BouncyBall& ball);
 
 };
 

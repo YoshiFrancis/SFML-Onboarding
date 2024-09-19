@@ -1,20 +1,26 @@
-#include "BouncyBallGame.hpp"
 #include <iostream>
 #include <functional>
+#include "BouncyBallGame.hpp"
 
 BouncyBallGame::BouncyBallGame()
   : _window(sf::VideoMode(500, 500), "Bouncing Balls")
 { }
 
 void BouncyBallGame::run() {
-  
-  _renderThread = std::thread(std::bind(&Game::render, this, &_window));
-  _physicsThread = std::thread(&Game::handlePhysics, this);
   while(_window.isOpen()) {
     pollEvents(); // events must be handled in the main thread
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+      std::cout << "User left clicked at position...\n";
+      BouncyBall bball = _bbf.create(true);
+      addBall(bball);
+    } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+      BouncyBall bball = _bbf.create(false);
+      addBall(bball);
+      std::cout << "User right clicked at position...\n";
+    }
+    handlePhysics();
+    render();
   }
-  _renderThread.join();
-  _physicsThread.join();
 }
 
 void BouncyBallGame::pollEvents() {
@@ -23,30 +29,17 @@ void BouncyBallGame::pollEvents() {
       case sf::Event::Closed:
         std::cout << "Closing!\n";
         _window.close();
-      case sf::Event::LefClick:
-        std::cout << "User left clicked at position...\n";
-        BouncyBall bball = _bbf.make("interactable");
-        addBall(bball);
-      case ::sf::Event::RightClick:
-          BouncyBall bball = _bbf.make("noninteractable");
-          addBall(bball);
-          std::cout << "User right clicked at position...\n";
     }
   }
 }
 
-void BouncyBallGame::render(sf::RenderWindow* window) {
+void BouncyBallGame::render() {
   // each ball should be inherit sf::Drawable, so they can be drawn using window.draw()
-  window->setActive(true);
-  // I should probably put a mutex here?
-  while (window->isOpen()) {
-    window->clear(sf::Color::Black);
-    for (auto& bball : _entities) {
-      window->draw(bball);
-    }
-    window->display();
+  _window.clear(sf::Color::Black);
+  for (auto& bball : _entities) {
+    _window.draw(bball);
   }
-  // cleanup mutex
+  _window.display();
 }
 
 void BouncyBallGame::handlePhysics() {
