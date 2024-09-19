@@ -25,7 +25,7 @@
  *
  *
  * TODO:  
- * TODO settup BouncyBallFactory class
+ * DONE - settup BouncyBallFactory class
  * TODO settup BouncyBall class
  * TODO finish handlePhysics() for non-interactble
  * TODO get simulation up and running for non-interactable balls
