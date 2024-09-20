@@ -2,9 +2,13 @@
 #include <functional>
 #include "BouncyBallGame.hpp"
 
+constexpr float VIEW_HEIGHT = 512.f;
 BouncyBallGame::BouncyBallGame()
-  : _window(sf::VideoMode(500, 500), "Bouncing Balls")
-{ }
+  : _window(sf::VideoMode(VIEW_HEIGHT, VIEW_HEIGHT), "Bouncing Balls"), _view(sf::Vector2f(VIEW_HEIGHT/2, VIEW_HEIGHT/2), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT))
+    ,_viewHeight(VIEW_HEIGHT)
+{ 
+  _window.setView(_view);
+}
 
 void BouncyBallGame::run() {
   while(_window.isOpen()) {
@@ -20,22 +24,21 @@ void BouncyBallGame::pollEvents() {
       case sf::Event::Closed:
         std::cout << "Closing!\n";
         _window.close();
+      case sf::Event::Resized:
+        std::cout << "Resizing!\n";
+        _window.setView(sf::View(sf::FloatRect(0, 0, _event.size.width, _event.size.height)));
       case sf::Event::MouseButtonReleased:
         sf::Vector2f mouse_pos = sf::Vector2f(_event.mouseButton.x, _event.mouseButton.y);
         sf::Vector2i new_mouse_pos = sf::Mouse::getPosition(_window);
         mouse_pos.x /= 2;
         mouse_pos.y /= 2;
-        std::cout << "User clicked at old position (" << mouse_pos.x << ", " << mouse_pos.y << ")\n";
-        std::cout << "User clicked at new position (" << new_mouse_pos.x / 2 << ", " << new_mouse_pos.y / 2<< ")\n";
         if (_event.mouseButton.button == sf::Mouse::Left) {
-          std::cout << "User left clicked at position...\n";
           BouncyBall bball = _bbf.create(true);
           bball.setPosition(mouse_pos);
           addBall(bball);
         } else if (_event.mouseButton.button == sf::Mouse::Right) {
           BouncyBall bball = _bbf.create(false);
           addBall(bball);
-          std::cout << "User right clicked at position...\n";
         }
     }
   }

@@ -39,10 +39,15 @@
  *
  *
  */
+
+
 class BouncyBallGame {
 
 private:
   sf::RenderWindow _window;
+  sf::View _view;
+  int _viewHeight;
+  float _prevAspectRatio = 0;
   sf::Event _event;
   std::vector<BouncyBall> _entities;
   std::thread _physicsThread;
