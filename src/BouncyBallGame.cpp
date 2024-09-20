@@ -9,15 +9,6 @@ BouncyBallGame::BouncyBallGame()
 void BouncyBallGame::run() {
   while(_window.isOpen()) {
     pollEvents(); // events must be handled in the main thread
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-      std::cout << "User left clicked at position...\n";
-      BouncyBall bball = _bbf.create(true);
-      addBall(bball);
-    } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-      BouncyBall bball = _bbf.create(false);
-      addBall(bball);
-      std::cout << "User right clicked at position...\n";
-    }
     handlePhysics();
     render();
   }
@@ -29,6 +20,23 @@ void BouncyBallGame::pollEvents() {
       case sf::Event::Closed:
         std::cout << "Closing!\n";
         _window.close();
+      case sf::Event::MouseButtonReleased:
+        sf::Vector2f mouse_pos = sf::Vector2f(_event.mouseButton.x, _event.mouseButton.y);
+        sf::Vector2i new_mouse_pos = sf::Mouse::getPosition(_window);
+        mouse_pos.x /= 2;
+        mouse_pos.y /= 2;
+        std::cout << "User clicked at old position (" << mouse_pos.x << ", " << mouse_pos.y << ")\n";
+        std::cout << "User clicked at new position (" << new_mouse_pos.x / 2 << ", " << new_mouse_pos.y / 2<< ")\n";
+        if (_event.mouseButton.button == sf::Mouse::Left) {
+          std::cout << "User left clicked at position...\n";
+          BouncyBall bball = _bbf.create(true);
+          bball.setPosition(mouse_pos);
+          addBall(bball);
+        } else if (_event.mouseButton.button == sf::Mouse::Right) {
+          BouncyBall bball = _bbf.create(false);
+          addBall(bball);
+          std::cout << "User right clicked at position...\n";
+        }
     }
   }
 }

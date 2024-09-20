@@ -27,6 +27,9 @@
  * TODO:  
  * DONE - settup BouncyBallFactory class
  * DONE - settup BouncyBall class
+ * TODO Render balls to screen with a click
+ *  - will have to mess around with views due to balls not scaling with window size
+ *  - technically not necessary if I never mess with window size, but should be great introduction to views
  * TODO finish handlePhysics() for non-interactble
  * TODO get simulation up and running for non-interactable balls
  * TODO implement handlePhysics for interactable balls using linear iterations

@@ -7,7 +7,7 @@ BouncyBall BouncyBallFactory::create(bool isInteractable) const {
   int red = dist(rng);
   int green = dist(rng);
   int blue = dist(rng);
-  return BouncyBall(50.f, red, green, blue, isInteractable);
+  return BouncyBall(10.f, red, green, blue, isInteractable);
 }
 
 BouncyBallFactory::BouncyBallFactory() {

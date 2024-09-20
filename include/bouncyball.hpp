@@ -21,12 +21,15 @@ public:
 
   bool isInteractble() const;
   sf::Vector2f getPosition() const;
+  float getRadius() const;
+  void setPosition(sf::Vector2f pos);
   void accelerate(sf::Vector2f acc);
   void accelerateX(int x);
   void accelerateY(int y);
   void setVelocity(sf::Vector2f velocity);
   void setVelocityX(int x);
   void setVelocityY(int y);
+  void rotate(float rad);
   void move(sf::Vector2f pos);
   
 private:
