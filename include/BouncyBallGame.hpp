@@ -27,7 +27,7 @@
  * TODO:  
  * DONE - settup BouncyBallFactory class
  * DONE - settup BouncyBall class
- * TODO Render balls to screen with a click
+ * DONE - Render balls to screen with a click 
  *  - will have to mess around with views due to balls not scaling with window size
  *  - technically not necessary if I never mess with window size, but should be great introduction to views
  * TODO finish handlePhysics() for non-interactble
@@ -61,7 +61,7 @@ public:
 private:
   void pollEvents();
   void render();
-  void handlePhysics();
+  void handlePhysics(float deltaTime);
   void addBall(BouncyBall& ball);
 
 };

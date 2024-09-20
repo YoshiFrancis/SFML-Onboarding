@@ -3,6 +3,7 @@
 #include "BouncyBallGame.hpp"
 
 constexpr float VIEW_HEIGHT = 512.f;
+constexpr float GRAVITY = 9.8f;
 BouncyBallGame::BouncyBallGame()
   : _window(sf::VideoMode(VIEW_HEIGHT, VIEW_HEIGHT), "Bouncing Balls"), _view(sf::Vector2f(VIEW_HEIGHT/2, VIEW_HEIGHT/2), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT))
     ,_viewHeight(VIEW_HEIGHT)
@@ -11,9 +12,11 @@ BouncyBallGame::BouncyBallGame()
 }
 
 void BouncyBallGame::run() {
+  sf::Clock clock;
   while(_window.isOpen()) {
+    float deltaTime = clock.restart().asSeconds();
     pollEvents(); // events must be handled in the main thread
-    handlePhysics();
+    handlePhysics(deltaTime);
     render();
   }
 }
@@ -53,11 +56,14 @@ void BouncyBallGame::render() {
   _window.display();
 }
 
-void BouncyBallGame::handlePhysics() {
+void BouncyBallGame::handlePhysics(float deltaTime) {
   // simple start -> iterate through each ball and check if they interact with ball or window
   // more complex -> quad tree
   // for now, do noninteractable balls which only hit on window
-
+  for (auto& bball : _entities) {
+    bball.accelerateY(deltaTime);
+    bball.move();
+  }
 }
 
 void BouncyBallGame::addBall(BouncyBall& ball) {

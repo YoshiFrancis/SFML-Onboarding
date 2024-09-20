@@ -24,13 +24,14 @@ public:
   float getRadius() const;
   void setPosition(sf::Vector2f pos);
   void accelerate(sf::Vector2f acc);
-  void accelerateX(int x);
-  void accelerateY(int y);
+  void accelerateX(float x);
+  void accelerateY(float y);
   void setVelocity(sf::Vector2f velocity);
-  void setVelocityX(int x);
-  void setVelocityY(int y);
+  void setVelocityX(float x);
+  void setVelocityY(float y);
   void rotate(float rad);
   void move(sf::Vector2f pos);
+  void move();
   
 private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

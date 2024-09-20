@@ -46,11 +46,11 @@ void BouncyBall::accelerate(sf::Vector2f acc) {
   _velocity += acc;
 }
 
-void BouncyBall::accelerateX(int x) {
+void BouncyBall::accelerateX(float x) {
   _velocity.x += x;
 }
 
-void BouncyBall::accelerateY(int y) {
+void BouncyBall::accelerateY(float y) {
   _velocity.y += y;
 }
 
@@ -58,11 +58,11 @@ void BouncyBall::setVelocity(sf::Vector2f velocity) {
   _velocity = velocity;
 }
 
-void BouncyBall::setVelocityX(int x) {
+void BouncyBall::setVelocityX(float x) {
   _velocity.x = x;
 }
 
-void BouncyBall::setVelocityY(int y) {
+void BouncyBall::setVelocityY(float y) {
   _velocity.y = y;
 }
 
@@ -72,6 +72,11 @@ void BouncyBall::rotate(float rad) {
 
 void BouncyBall::move(sf::Vector2f pos) {
   _sprite.move(pos);
+}
+
+void BouncyBall::move() {
+  std::cout << "Velocity: " << _velocity.x << ", " << _velocity.y << "\n";
+  _sprite.move(_velocity);
 }
 
 void BouncyBall::draw(sf::RenderTarget& target, sf::RenderStates states) const {
