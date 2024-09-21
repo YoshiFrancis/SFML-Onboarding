@@ -75,7 +75,8 @@ void BouncyBall::move(sf::Vector2f pos) {
 }
 
 void BouncyBall::move() {
-  std::cout << "Velocity: " << _velocity.x << ", " << _velocity.y << "\n";
+  _velocity.x = fmin(_maxSpeed, _velocity.x);
+  _velocity.y = fmin(_maxSpeed, _velocity.y);
   _sprite.move(_velocity);
 }
 

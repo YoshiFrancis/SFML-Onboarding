@@ -3,7 +3,7 @@
 #include "BouncyBallGame.hpp"
 
 constexpr float VIEW_HEIGHT = 512.f;
-constexpr float GRAVITY = 9.8f;
+constexpr float GRAVITY = .98f;
 BouncyBallGame::BouncyBallGame()
   : _window(sf::VideoMode(VIEW_HEIGHT, VIEW_HEIGHT), "Bouncing Balls"), _view(sf::Vector2f(VIEW_HEIGHT/2, VIEW_HEIGHT/2), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT))
     ,_viewHeight(VIEW_HEIGHT)
@@ -60,8 +60,19 @@ void BouncyBallGame::handlePhysics(float deltaTime) {
   // simple start -> iterate through each ball and check if they interact with ball or window
   // more complex -> quad tree
   // for now, do noninteractable balls which only hit on window
+  
   for (auto& bball : _entities) {
-    bball.accelerateY(deltaTime);
+    bball._velocity.y += deltaTime * GRAVITY;
+  }
+  for (auto& bball : _entities) {
+    auto pos = bball.getPosition();
+    if (pos.x - bball.getRadius() <= 0 || pos.x + bball.getRadius() >= 200) {
+      bball._velocity.x *= -.8f;
+    }
+    if (pos.y + bball.getRadius() >= 256 && bball._velocity.y > 0) {
+      bball._velocity.y *= -.8f;
+    }
+    bball.rotate(.01f);
     bball.move();
   }
 }

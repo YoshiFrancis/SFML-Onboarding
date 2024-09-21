@@ -10,8 +10,9 @@ class BouncyBall : public sf::Drawable {
 private:
   bool _interactable; // in a real game, make it int to have 32 flags to decide what other objects it interacts with
   sf::CircleShape _sprite;
-  sf::Vector2f _velocity;
+  float _maxSpeed = 1.f;
 public:
+  sf::Vector2f _velocity;
   BouncyBall(float radius, int red, int green, int blue, bool isInteractble);
   BouncyBall(BouncyBall &&) = default;
   BouncyBall(const BouncyBall &) = default;
