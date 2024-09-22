@@ -26,7 +26,7 @@ BouncyBall::BouncyBall(float radius, int red, int green, int blue, bool isIntera
   std::cout << "Global Position: (" << global_pos.x << ", " << global_pos.y << ")\n";
 }
 
-bool BouncyBall::isInteractble() const {
+bool BouncyBall::isInteractable() const {
   return _interactable;
 }
 
@@ -36,6 +36,10 @@ sf::Vector2f BouncyBall::getPosition() const {
 
 float BouncyBall::getRadius() const {
   return _sprite.getRadius();
+}
+
+sf::Vector2f BouncyBall::getVelocity() const {
+  return _velocity;
 }
 
 void BouncyBall::setPosition(sf::Vector2f pos) {

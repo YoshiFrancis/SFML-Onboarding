@@ -20,9 +20,10 @@ public:
   BouncyBall &operator=(const BouncyBall &) = default;
   ~BouncyBall();
 
-  bool isInteractble() const;
+  bool isInteractable() const;
   sf::Vector2f getPosition() const;
   float getRadius() const;
+  sf::Vector2f getVelocity() const;
   void setPosition(sf::Vector2f pos);
   void accelerate(sf::Vector2f acc);
   void accelerateX(float x);

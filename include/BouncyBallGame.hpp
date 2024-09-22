@@ -63,6 +63,8 @@ private:
   void render();
   void handlePhysics(float deltaTime);
   void addBall(BouncyBall& ball);
+  bool isColliding(BouncyBall& b1, BouncyBall& b2) const;
+  void collide(BouncyBall& b1, BouncyBall& b2, float deltaTime);
 
 };
 

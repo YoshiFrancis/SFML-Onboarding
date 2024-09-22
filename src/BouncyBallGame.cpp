@@ -9,6 +9,7 @@ BouncyBallGame::BouncyBallGame()
     ,_viewHeight(VIEW_HEIGHT)
 { 
   _window.setView(_view);
+  _window.setFramerateLimit(60);
 }
 
 void BouncyBallGame::run() {
@@ -60,19 +61,25 @@ void BouncyBallGame::handlePhysics(float deltaTime) {
   // simple start -> iterate through each ball and check if they interact with ball or window
   // more complex -> quad tree
   // for now, do noninteractable balls which only hit on window
-  
+
   for (auto& bball : _entities) {
     bball._velocity.y += deltaTime * GRAVITY;
+    for (auto& other : _entities) {
+      if (&other == &bball)
+        continue;
+      collide(bball, other, deltaTime);
+    }
   }
+  
   for (auto& bball : _entities) {
     auto pos = bball.getPosition();
     if (pos.x - bball.getRadius() <= 0 || pos.x + bball.getRadius() >= 200) {
-      bball._velocity.x *= -.8f;
+      bball._velocity.x *= -1;
     }
     if (pos.y + bball.getRadius() >= 256 && bball._velocity.y > 0) {
-      bball._velocity.y *= -.8f;
+      bball._velocity.y *= -1;
     }
-    bball.rotate(.01f);
+    
     bball.move();
   }
 }
@@ -82,4 +89,47 @@ void BouncyBallGame::addBall(BouncyBall& ball) {
   _entities.push_back(ball);
   // clean up mutexes
 }
+
+template <typename T>
+float magVector(sf::Vector2<T> v1) {
+  return std::sqrt(v1.x * v1.x + v1.y * v1.y);
+}
+
+bool BouncyBallGame::isColliding(BouncyBall& b1, BouncyBall& b2) const {
+  if (!b1.isInteractable() || !b2.isInteractable())
+      return false;
+  sf::Vector2f dist = b1.getPosition() - b2.getPosition();
+  float max_dist = b1.getRadius() + b2.getRadius();
+  if (magVector(dist) <= max_dist) 
+    return true;
+  return false;
+}
+
+float dot(sf::Vector2f v1, sf::Vector2f v2) {
+  return v1.x * v2.x + v1.y + v2.y;
+}
+
+template <typename T>
+sf::Vector2f unitVector(sf::Vector2<T> v) {
+  return v / magVector(v);
+}
+
+void BouncyBallGame::collide(BouncyBall& b1, BouncyBall& b2, float deltaTime) {
+
+  sf::Vector2f posDiff = b2.getPosition() - b1.getPosition();
+  float posDiffMag = magVector(posDiff);
+  float overlap = posDiffMag - b1.getRadius() - b2.getRadius();
+  if (overlap < -1) {
+    auto offset_vector = overlap * .5f * unitVector(posDiff);
+    b1.setPosition(b1.getPosition() + offset_vector);
+    b2.setPosition(b2.getPosition() + -offset_vector);
+
+    sf::Vector2f velDiff = b2.getVelocity() - b1.getVelocity();
+    auto deltaVelb1 = dot(velDiff, posDiff) / posDiffMag * posDiff;
+    auto deltaVelb2 = dot(velDiff, posDiff) / posDiffMag * posDiff;
+    b1._velocity += deltaVelb1 * deltaTime;
+    b2._velocity += -deltaVelb2 * deltaTime;
+  }
+}
+
 
